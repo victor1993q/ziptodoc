@@ -50,56 +50,32 @@ class Index
         $path = getcwd().'/';
         $phpWord = new PhpWord();
         $title = "标题";
-        $num = 10;
-        $mean = "测试11";
+        $num = 1;
+        $mean = [];
         $section = $phpWord->addSection();
-        $phpWord->addTitleStyle(2, array('bold' => true, 'size' => 14, 'name' => 'Arial', 'Color' => '333'), array('align' => 'center'));
-        $section->addTitle("$title", 2);
-        $section->addTextBreak(1);
-        $section->addText("姓名：                                                    题量： $num                                                    分数：          ");
-        $tableStyle = array(
-            'borderSize' => 6,
-            'borderColor' => '006699'
-        );
-        $table = $section->addTable($tableStyle);
-        $fancyTableCellStyle = array('valign' => 'center');
-        $cellRowSpan = array('vMerge' => 'restart', 'valign' => 'center');
-        $cellRowContinue = array('vMerge' => 'continue');
-        $fontStyle['name'] = 'Arial';
-        $fontStyle['size'] = 14;
-        $thStyle['name'] = 'Arial';
-        $thStyle['size'] = 12;
-        $thStyle['bold'] = true;
-        $paraStyle['align'] = 'center';
-        $table->addRow(500);
-        $table->addCell(3500, $fancyTableCellStyle)->addText('答题区', $thStyle, $paraStyle);
-        $table->addCell(1000, $fancyTableCellStyle)->addText('批改区', $thStyle, $paraStyle);
-        $table->addCell(3500, $fancyTableCellStyle)->addText('答题区', $thStyle, $paraStyle);
-        $table->addCell(1000, $fancyTableCellStyle)->addText('批改区', $thStyle, $paraStyle);
-        $len = ceil($num / 2);
-        for ($i = 0; $i < $len; $i++) {
-            $table->addRow(500);
-            $table->addCell(3500, $fancyTableCellStyle)->addText(($i * 2 + 1) . '.' . $mean[$i * 2], $fontStyle);
-            $table->addCell(1000, $cellRowSpan)->addText(' ');
-            if ($num % 2 != 0 && $i == $len - 1) {
-                $table->addCell(3500, $fancyTableCellStyle)->addText('');
-            } else {
-                $table->addCell(3500, $fancyTableCellStyle)->addText(($i * 2 + 2) . '.' . $mean[$i * 2 + 1], $fontStyle);
-            }
-            $table->addCell(1000, $cellRowSpan)->addText(' ');
-            $table->addRow(1000);
-            $table->addCell(3500, $fancyTableCellStyle)->addText('答案:');
-            $table->addCell(null, $cellRowContinue);
-            if ($num % 2 != 0 && $i == $len - 1) {
-                $table->addCell(3500, $fancyTableCellStyle)->addText('');
-            } else {
-                $table->addCell(3500, $fancyTableCellStyle)->addText('答案:');
-            }
+        //添加文字内容
+        $fontStyle = [
+            'name' => 'Microsoft Yahei UI',
+            'size' => 20,
+            'color' => '#ff6600',
+            'bold' => true
+        ];
+        $textrun = $section->addTextRun();
+        $textrun->addText('你好，这是生成的Word文档。 ', $fontStyle);
+        //链接
+        $section->addLink('https://www.baidu.com', '欢迎访问百度', array('color' => '0000FF', 'underline' => \PhpOffice\PhpWord\Style\Font::UNDERLINE_SINGLE));
+        $section->addTextBreak();
+        $file = 'test.docx';
+        header("Content-Description: File Transfer");
+        header('Content-Disposition: attachment; filename="' . $file . '"');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        header('Content-Transfer-Encoding: binary');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Expires: 0');
+        $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $xmlWriter->save("php://output");
 
-            $table->addCell(null, $cellRowContinue);
-        }
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-        $objWriter->save("./Public/doc/word.docx");
+
     }
 
 }
