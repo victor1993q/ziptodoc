@@ -46,7 +46,7 @@ class Index
                 'bold' => true
             ];
             $textrun = $section->addTextRun();
-            $textrun->addText($this->getName($dirs[$i]), $fontStyle);
+            $textrun->addText($this->getName($dirs[$i][0][0]), $fontStyle);
             $section->addImage($path.'zip/'.$dir1[2].'/合格/'.$dirs[$i], array('width'=>64, 'height'=>64));
         }
 
