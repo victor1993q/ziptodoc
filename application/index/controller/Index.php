@@ -50,6 +50,7 @@ class Index
 //            $textrun->addText(, $fontStyle);
             $section->addImage($path.'zip/'.$dir1[2].'/合格/'.$dirs[$i], array('width'=>64, 'height'=>64));
         }
+        die;
 
         $file = 'test.docx';
         header("Content-Description: File Transfer");
