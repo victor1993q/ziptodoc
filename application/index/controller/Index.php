@@ -13,34 +13,59 @@ class Index
     public function test()
     {
 	//获取表单提交的压缩文件
-	//$file = $_FILES['file'];
+	$file = $_FILES['file'];
 	//获取文件名
-	//$name = $file['name'];
+	$name = $file['name'];
 	//获取绝对路径
 	$path = getcwd().'/';
 	//定义文件保存路径
-	//$filepath= $path.'uploads/'.$name;
+	$filepath= $path.'uploads/'.$name;
 	//使用PHP函数移动文件
-	//$res = move_uploaded_file($file['tmp_name'],$filepath);
+	$res = move_uploaded_file($file['tmp_name'],$filepath);
 	//实例化ZipArchive类
-	//$zip = new \ZipArchive();
+	$zip = new \ZipArchive();
 	//打开压缩文件，打开成功时返回true
-	//if ($zip->open($filepath) === true) {
+	if ($zip->open($filepath) === true) {
 	    //解压文件到获得的路径a文件夹下
-	//    $zip->extractTo($path.'/zip/');
+	    $zip->extractTo($path.'/zip/');
 	    //关闭
-	//    $zip->close();
-	//    echo 'ok';
-	//} else {
-	//    echo 'error';
-	//}
-	$dir1 = scandir($path.'zip');
-	$dirs = scandir($path.'zip/'.$dir1[2].'/合格');
-	$images = [];
-	for($i=2;$i<count($dirs);$i++){
-	    $images[] = $path.'zip/'.$dir1[2].'/合格/'.$dirs[$i];
+	    $zip->close();
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $dir1 = scandir($path.'zip');
+        $dirs = scandir($path.'zip/'.$dir1[2].'/合格');
+        $images = [];
+        for($i=2;$i<count($dirs);$i++){
+            $images[] = $path.'zip/'.$dir1[2].'/合格/'.$dirs[$i];
+
+            //添加文字内容
+            $fontStyle = [
+                'name' => 'Microsoft Yahei UI',
+                'size' => 20,
+                'color' => '#ff6600',
+                'bold' => true
+            ];
+            $textrun = $section->addTextRun();
+            $textrun->addText('', $fontStyle);
+        }
+
+        //链接
+        $section->addLink('https://www.baidu.com', '欢迎访问百度', array('color' => '0000FF', 'underline' => \PhpOffice\PhpWord\Style\Font::UNDERLINE_SINGLE));
+        $section->addTextBreak();
+        $file = 'test.docx';
+        header("Content-Description: File Transfer");
+        header('Content-Disposition: attachment; filename="' . $file . '"');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        header('Content-Transfer-Encoding: binary');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Expires: 0');
+        $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $xmlWriter->save("php://output");
+	} else {
+	    echo 'error';
 	}
-	var_dump($images);die;
+
+
 
     }
 
@@ -78,6 +103,18 @@ class Index
 
     }
 
+
+    public function test3()
+    {
+        $title = "12317这张桌子33211";
+        $return = $this->getName($title);
+        var_dump($return);
+    }
+
+    private function getName($title) {
+        preg_match_all("/[\x{4e00}-\x{9fa5}]+/u","字符串",$regs);
+        return $regs;
+    }
 }
 
 
