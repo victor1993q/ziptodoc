@@ -41,7 +41,7 @@ class Index
             //添加文字内容
             $fontStyle = [
                 'name' => 'Microsoft Yahei UI',
-                'size' => ,
+                'size' => 4,
                 'color' => '#ff6600',
                 'bold' => true
             ];
