@@ -1,7 +1,7 @@
 <?php
 namespace app\index\controller;
 
-use app\extend\File;
+use extend\File;
 use PhpOffice\PhpWord\PhpWord;
 
 class Index
