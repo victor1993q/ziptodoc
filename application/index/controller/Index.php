@@ -12,24 +12,24 @@ class Index
     
     public function test()
     {
-	//获取表单提交的压缩文件
-	$file = $_FILES['file'];
-	//获取文件名
-	$name = $file['name'];
-	//获取绝对路径
+//	//获取表单提交的压缩文件
+//	$file = $_FILES['file'];
+//	//获取文件名
+//	$name = $file['name'];
+//	//获取绝对路径
 	$path = getcwd().'/';
 	//定义文件保存路径
-	$filepath= $path.'uploads/'.$name;
-	//使用PHP函数移动文件
-	$res = move_uploaded_file($file['tmp_name'],$filepath);
+//	$filepath= $path.'uploads/'.$name;
+//	//使用PHP函数移动文件
+//	$res = move_uploaded_file($file['tmp_name'],$filepath);
 	//实例化ZipArchive类
-	$zip = new \ZipArchive();
-	//打开压缩文件，打开成功时返回true
-	if ($zip->open($filepath) === true) {
+//	$zip = new \ZipArchive();
+//	//打开压缩文件，打开成功时返回true
+//	if ($zip->open($filepath) === true) {
 	    //解压文件到获得的路径a文件夹下
-	    $zip->extractTo($path.'/zip/');
-	    //关闭
-	    $zip->close();
+//	    $zip->extractTo($path.'/zip/');
+//	    //关闭
+//	    $zip->close();
         $phpWord = new PhpWord();
         $section = $phpWord->addSection();
         $dir1 = scandir($path.'zip');
@@ -46,12 +46,10 @@ class Index
                 'bold' => true
             ];
             $textrun = $section->addTextRun();
-            $textrun->addText('', $fontStyle);
+            $textrun->addText($this->getName($dirs[$i]), $fontStyle);
+            $section->addImage($path.'zip/'.$dir1[2].'/合格/'.$dirs[$i], array('width'=>64, 'height'=>64));
         }
 
-        //链接
-        $section->addLink('https://www.baidu.com', '欢迎访问百度', array('color' => '0000FF', 'underline' => \PhpOffice\PhpWord\Style\Font::UNDERLINE_SINGLE));
-        $section->addTextBreak();
         $file = 'test.docx';
         header("Content-Description: File Transfer");
         header('Content-Disposition: attachment; filename="' . $file . '"');
@@ -61,9 +59,9 @@ class Index
         header('Expires: 0');
         $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         $xmlWriter->save("php://output");
-	} else {
-	    echo 'error';
-	}
+//	} else {
+//	    echo 'error';
+//	}
 
 
 
