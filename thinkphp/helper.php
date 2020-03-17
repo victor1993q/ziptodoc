@@ -587,3 +587,22 @@ if (!function_exists('collection')) {
         }
     }
 }
+
+if (!function_exists('delFileUnderDir')) {
+    //循环目录下的所有文件
+
+    function delFileUnderDir( $dirName="/data/wwwroot/tp5/public/zip")
+    {
+        if ( $handle = opendir( "$dirName" ) ) {
+            while ( false !== ( $item = readdir( $handle ) ) ) {
+                if ( $item != "." && $item != ".." ) {
+                    if ( is_dir( "$dirName/$item" ) ) {
+                        delFileUnderDir( "$dirName/$item" );
+                    }
+                }
+            }
+            closedir( $handle );
+        }
+
+    }
+}
