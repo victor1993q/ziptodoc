@@ -1,6 +1,8 @@
 <?php
 namespace app\index\controller;
 
+use PhpOffice\PhpWord\PhpWord;
+
 class Index
 {
     public function index()
@@ -38,11 +40,66 @@ class Index
 	for($i=2;$i<count($dirs);$i++){
 	    $images[] = $path.'zip/'.$dir1[2].'/合格/'.$dirs[$i];
 	}
-	var_dump($images);die;    	
+	var_dump($images);die;
+
+    }
 
 
+    public function test2()
+    {
+        $path = getcwd().'/';
+        $phpWord = new PhpWord();
+        $title = "标题";
+        $num = 10;
+        $mean = "测试11";
+        $section = $phpWord->addSection();
+        $phpWord->addTitleStyle(2, array('bold' => true, 'size' => 14, 'name' => 'Arial', 'Color' => '333'), array('align' => 'center'));
+        $section->addTitle("$title", 2);
+        $section->addTextBreak(1);
+        $section->addText("姓名：                                                    题量： $num                                                    分数：          ");
+        $tableStyle = array(
+            'borderSize' => 6,
+            'borderColor' => '006699'
+        );
+        $table = $section->addTable($tableStyle);
+        $fancyTableCellStyle = array('valign' => 'center');
+        $cellRowSpan = array('vMerge' => 'restart', 'valign' => 'center');
+        $cellRowContinue = array('vMerge' => 'continue');
+        $fontStyle['name'] = 'Arial';
+        $fontStyle['size'] = 14;
+        $thStyle['name'] = 'Arial';
+        $thStyle['size'] = 12;
+        $thStyle['bold'] = true;
+        $paraStyle['align'] = 'center';
+        $table->addRow(500);
+        $table->addCell(3500, $fancyTableCellStyle)->addText('答题区', $thStyle, $paraStyle);
+        $table->addCell(1000, $fancyTableCellStyle)->addText('批改区', $thStyle, $paraStyle);
+        $table->addCell(3500, $fancyTableCellStyle)->addText('答题区', $thStyle, $paraStyle);
+        $table->addCell(1000, $fancyTableCellStyle)->addText('批改区', $thStyle, $paraStyle);
+        $len = ceil($num / 2);
+        for ($i = 0; $i < $len; $i++) {
+            $table->addRow(500);
+            $table->addCell(3500, $fancyTableCellStyle)->addText(($i * 2 + 1) . '.' . $mean[$i * 2], $fontStyle);
+            $table->addCell(1000, $cellRowSpan)->addText(' ');
+            if ($num % 2 != 0 && $i == $len - 1) {
+                $table->addCell(3500, $fancyTableCellStyle)->addText('');
+            } else {
+                $table->addCell(3500, $fancyTableCellStyle)->addText(($i * 2 + 2) . '.' . $mean[$i * 2 + 1], $fontStyle);
+            }
+            $table->addCell(1000, $cellRowSpan)->addText(' ');
+            $table->addRow(1000);
+            $table->addCell(3500, $fancyTableCellStyle)->addText('答案:');
+            $table->addCell(null, $cellRowContinue);
+            if ($num % 2 != 0 && $i == $len - 1) {
+                $table->addCell(3500, $fancyTableCellStyle)->addText('');
+            } else {
+                $table->addCell(3500, $fancyTableCellStyle)->addText('答案:');
+            }
 
-
+            $table->addCell(null, $cellRowContinue);
+        }
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save("./Public/doc/word.docx");
     }
 
 }
