@@ -41,7 +41,7 @@ class Index
             //添加文字内容
             $fontStyle = [
                 'name' => 'Microsoft Yahei UI',
-                'size' => 20,
+                'size' => ,
                 'color' => '#ff6600',
                 'bold' => true
             ];
@@ -112,7 +112,7 @@ class Index
     }
 
     private function getName($title) {
-        preg_match_all("/[\x{4e00}-\x{9fa5}]+/u","字符串",$regs);
+        preg_match_all("/[\x{4e00}-\x{9fa5}]+/u",$title,$regs);
         return $regs;
     }
 }
