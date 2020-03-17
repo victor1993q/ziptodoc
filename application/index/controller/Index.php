@@ -1,7 +1,6 @@
 <?php
 namespace app\index\controller;
 
-use extend\File;
 use PhpOffice\PhpWord\PhpWord;
 
 class Index
@@ -107,7 +106,7 @@ class Index
 
     public function test3()
     {
-        File::delFileUnderDir();
+        delFileUnderDir();
 //        $title = "12317这张桌子33211";
 //        $return = $this->getName($title);
 //        var_dump($return);
