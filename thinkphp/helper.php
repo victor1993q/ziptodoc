@@ -593,6 +593,7 @@ if (!function_exists('delFileUnderDir')) {
     function delFileUnderDir( $dirName="/data/wwwroot/tp5/public/zip")
     {
         if ( $handle = opendir( "$dirName" ) ) {
+            var_dump($handle);
             while ( false !== ( $item = readdir( $handle ) ) ) {
                 if ( $item != "." && $item != ".." ) {
                     if ( is_dir( "$dirName/$item" ) ) {
