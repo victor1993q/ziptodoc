@@ -592,7 +592,6 @@ if (!function_exists('delFileUnderDir')) {
     //循环目录下的所有文件
     function delFileUnderDir( $dirName="/data/wwwroot/tp5/public/zip")
     {
-        var_dump($dirName);
         if ( $handle = opendir( "$dirName" ) ) {
             var_dump($handle);
             while ( false !== ( $item = readdir( $handle ) ) ) {
@@ -605,6 +604,7 @@ if (!function_exists('delFileUnderDir')) {
                 }
             }
             closedir( $handle );
+            rmdir($dirName);
         }
 
     }
