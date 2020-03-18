@@ -52,11 +52,11 @@ class Index extends Controller
                 $textrun = $section->addTextRun();
     //            var_dump($this->getName($dirs[$i])[0][0]);
                 $textrun->addText($this->getName($dirs[$i])[0][0], $fontStyle);
-                $section->addImage($path.'zip/'.$dir1[2].'/合格/'.$dirs[$i], array('width'=>64, 'height'=>64));
+                $section->addImage($path.'zip/'.$dir1[2].'/合格/'.$dirs[$i], array('width'=>200, 'height'=>200));
             }
 //        die;
 
-            $file = 'test.docx';
+            $file = substr($file['name'],0,-4).'.docx';
             header("Content-Description: File Transfer");
             header('Content-Disposition: attachment; filename="' . $file . '"');
             header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
